@@ -1,6 +1,6 @@
 import os
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas # type: ignore
+from reportlab.lib.pagesizes import A4 # type: ignore
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
@@ -10,30 +10,12 @@ import logging
 desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
 BG_IMAGE_PATH = os.path.join(desktop_path, 'vital.jpg')
 jpg_folder_path = r'C:\Users\Manuel Mersini\Desktop\REFERTO-LONGEVITY-in-corso'
-jpg_files = [f"page{i}.jpg" for i in range(1, 8)]  # Pages from page1.jpg to page7.jpg
+jpg_files = [f"page{i}.jpg" for i in range(1, 8)]  
 
-# Function to create sections for biomarker entries dynamically
-def create_section(frame, section_name, biomarkers):
-    section_frame = tk.Frame(frame, bg="#e0f7fa", padx=10, pady=10)
-    section_frame.grid(sticky="ew", padx=20, pady=10)
 
-    tk.Label(section_frame, text=section_name, font=("Helvetica", 12, "bold"), bg="#e0f7fa").grid(row=0, column=0, columnspan=2, sticky="w")
-
-    entries = {}
-    for i, (biomarker, unit) in enumerate(biomarkers.items()):
-        label = f"{biomarker} ({unit}):"
-        tk.Label(section_frame, text=label, anchor="w", bg="#e0f7fa", fg="#004d40", width=25).grid(row=i+1, column=0, sticky="w")
-        entry = tk.Entry(section_frame, width=10, bg="#f0f0f0")
-        entry.grid(row=i+1, column=1, padx=10, pady=2)
-        entries[biomarker] = entry
-
-    return entries
-
-# PDF Report Generation Function
 def generate_pdf_report(data):
     try:
-        desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
-        pdf_path = os.path.join(desktop_path, f"{data.get('Name', 'Unknown')}_{data.get('Surname', 'Unknown')}_Analysis_Report.pdf")
+        pdf_path = os.path.join(os.path.expanduser('~'), 'Desktop', f"{data['Name']}_{data['Surname']}_Analysis_Report.pdf")
         c = canvas.Canvas(pdf_path, pagesize=A4)
         width, height = A4
 
@@ -85,7 +67,7 @@ def generate_pdf_report(data):
                 'COLESTEROLO LDL': (270, 425),
                 'COLESTEROLO HDL': (270, 390),
 
-                
+
                 'TRIGLICERIDI': (270, 355),
                 'SODIO': (270, 282),
                 'POTASSIO': (270, 262),
@@ -162,8 +144,8 @@ def generate_pdf_report(data):
             c.drawImage(os.path.join(jpg_folder_path, jpg_file), 0, 0, width=width, height=height)
             
             # Patient Information (assuming it's on the first page)
-            if page_index == 0 or page_index == 5:
-                c.drawString(500, 800, f"{data['Name']} {data['Surname']}")
+            if page_index == (0,5):
+                c.drawString(500, 800, data['Name','Surname'])
                 c.drawString(150, 780, data['DATA PRELIEVO'])
                 c.drawString(150, 760, data['DOB'])
                 c.drawString(150, 740, data['CF'])
@@ -175,7 +157,7 @@ def generate_pdf_report(data):
                     if key in data:
                         c.drawString(x, y, str(data[key]))
 
-            c.showPage()  # Add a new page for the next image
+            c.showPage() 
 
         # Save PDF
         c.save()
@@ -187,6 +169,23 @@ def generate_pdf_report(data):
     except Exception as e:
         logging.error(f"Error generating PDF report: {e}")
         messagebox.showerror("Error", f"An unexpected error occurred while generating the PDF report: {e}")
+
+# Function to create sections for biomarker entries dynamically
+def create_section(frame, section_name, biomarkers):
+    section_frame = tk.Frame(frame, bg="#e0f7fa", padx=10, pady=10)
+    section_frame.grid(sticky="ew", padx=20, pady=10)
+
+    tk.Label(section_frame, text=section_name, font=("Helvetica", 12, "bold"), bg="#e0f7fa").grid(row=0, column=0, columnspan=2, sticky="w")
+
+    entries = {}
+    for i, (biomarker, unit) in enumerate(biomarkers.items()):
+        label = f"{biomarker} ({unit}):"
+        tk.Label(section_frame, text=label, anchor="w", bg="#e0f7fa", fg="#004d40", width=25).grid(row=i+1, column=0, sticky="w")
+        entry = tk.Entry(section_frame, width=10, bg="#f0f0f0")
+        entry.grid(row=i+1, column=1, padx=10, pady=2)
+        entries[biomarker] = entry
+
+    return entries
 
 # Funzioni di calcolo dell'età biologica
 def adjust_age_obri(obri_index):
@@ -541,9 +540,19 @@ def create_biological_age_app():
     for section_name, biomarkers in sections.items():
         section_entries[section_name] = create_section(scrollable_frame, section_name, biomarkers)
 
+
+    data = {}
+
+    data['Name'] = "John"
+    data['Surname'] = "Doe"
+    data['Chronological Age'] = 45
+    data['Biological Age'] = 48  
+
+    data = [name_entry, surname_entry, dob_entry, chronological_age_entry, section_entries]
+
     # Add the "Calcolo Età Biologica" button
     calculate_button = tk.Button(scrollable_frame, text="Calcolo Età Biologica",
-                                 command=lambda: calculate_and_generate_report(name_entry, surname_entry, dob_entry, chronological_age_entry, section_entries))
+                                 command=lambda: generate_pdf_report(data))
     calculate_button.grid(pady=20)
 
     root.mainloop()

@@ -571,53 +571,6 @@ def toggle_section(section_frame):
 
 
 
-""" # Function to generate the PDF report
-def generate_pdf_report(data):
-
-    pdf_path = os.path.join(os.path.expanduser('~'), 'Desktop', f"{data['Name']}_{data['Surname']}_Analysis_Report.pdf")
-    c = canvas.Canvas(pdf_path, pagesize=A4)
-    
-    # Header
-    c.setFont("Helvetica-Bold", 16)
-    c.drawString(100, 800, "Biological Age Report")
-    
-    # Personal Information
-    c.setFont("Helvetica", 12)
-    c.drawString(100, 770, f"Name: {data['Name']}")
-    c.drawString(100, 750, f"Surname: {data['Surname']}")
-    c.drawString(100, 730, f"Chronological Age: {data['Chronological Age']}")
-    c.drawString(100, 710, f"Biological Age: {data['Biological Age']}")
-    
-    # Coagulation State
-    c.setFont("Helvetica-Bold", 14)
-    c.drawString(100, 680, "Coagulation State:")
-    c.setFont("Helvetica", 12)
-    c.drawString(120, 660, f"PLT: {data.get('PLT', 'N/A')}")
-    c.drawString(120, 640, f"MPV: {data.get('MPV', 'N/A')}")
-    
-    # Add Lipid Metabolism
-    c.setFont("Helvetica-Bold", 14)
-    c.drawString(100, 610, "Lipid Metabolism:")
-    c.setFont("Helvetica", 12)
-    c.drawString(120, 590, f"Total Cholesterol: {data.get('Total Cholesterol', 'N/A')}")
-    c.drawString(120, 570, f"LDL: {data.get('LDL', 'N/A')}")
-    
-    # Diabetic Profile
-    c.setFont("Helvetica-Bold", 14)
-    c.drawString(100, 540, "Diabetic Profile:")
-    c.setFont("Helvetica", 12)
-    c.drawString(120, 520, f"Glycemia: {data.get('Glycemia', 'N/A')}")
-    c.drawString(120, 500, f"Insulin: {data.get('Insulin', 'N/A')}")
-    
-    # Liver Function
-    c.setFont("Helvetica-Bold", 14)
-    c.drawString(100, 470, "Liver Function:")
-    c.setFont("Helvetica", 12)
-    c.drawString(120, 450, f"GOT: {data.get('GOT', 'N/A')}")
-    
-    c.save()
-    messagebox.showinfo("Report Generated", f"PDF report saved at {pdf_path}")
- """
 
 
 
@@ -702,3 +655,67 @@ def calculate_and_save(coagulation_entries, lipid_entries):
     generate_pdf_report(data)
 
 app.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+""" # Function to generate the PDF report
+def generate_pdf_report(data):
+
+    pdf_path = os.path.join(os.path.expanduser('~'), 'Desktop', f"{data['Name']}_{data['Surname']}_Analysis_Report.pdf")
+    c = canvas.Canvas(pdf_path, pagesize=A4)
+    
+    # Header
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(100, 800, "Biological Age Report")
+    
+    # Personal Information
+    c.setFont("Helvetica", 12)
+    c.drawString(100, 770, f"Name: {data['Name']}")
+    c.drawString(100, 750, f"Surname: {data['Surname']}")
+    c.drawString(100, 730, f"Chronological Age: {data['Chronological Age']}")
+    c.drawString(100, 710, f"Biological Age: {data['Biological Age']}")
+    
+    # Coagulation State
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(100, 680, "Coagulation State:")
+    c.setFont("Helvetica", 12)
+    c.drawString(120, 660, f"PLT: {data.get('PLT', 'N/A')}")
+    c.drawString(120, 640, f"MPV: {data.get('MPV', 'N/A')}")
+    
+    # Add Lipid Metabolism
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(100, 610, "Lipid Metabolism:")
+    c.setFont("Helvetica", 12)
+    c.drawString(120, 590, f"Total Cholesterol: {data.get('Total Cholesterol', 'N/A')}")
+    c.drawString(120, 570, f"LDL: {data.get('LDL', 'N/A')}")
+    
+    # Diabetic Profile
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(100, 540, "Diabetic Profile:")
+    c.setFont("Helvetica", 12)
+    c.drawString(120, 520, f"Glycemia: {data.get('Glycemia', 'N/A')}")
+    c.drawString(120, 500, f"Insulin: {data.get('Insulin', 'N/A')}")
+    
+    # Liver Function
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(100, 470, "Liver Function:")
+    c.setFont("Helvetica", 12)
+    c.drawString(120, 450, f"GOT: {data.get('GOT', 'N/A')}")
+    
+    c.save()
+    messagebox.showinfo("Report Generated", f"PDF report saved at {pdf_path}")
+ """
